@@ -175,7 +175,3 @@ From highest to lowest priority:
 - Understanding operator precedence is crucial for correct expression evaluation
 
 ---
-
-**Author:** [Your Name]  
-**Last Updated:** February 2026  
-**License:** MIT
