@@ -1,0 +1,142 @@
+# `unsigned char` Data Type in C
+
+> **Complete Notes** — covers every concept including range, representation, out-of-range wrap-around (Butterfly Diagram), and code examples.
+
+---
+
+## 1. Fundamental Properties
+
+| Property | Detail |
+|---|---|
+| **Default behavior** | If you do NOT explicitly write `unsigned`, the compiler automatically treats `char` as **signed** |
+| **Size** | `unsigned char` is **8 bits** (1 byte) |
+| **Syntax flexibility** | `unsigned char` and `char unsigned` are **identical** to the compiler — both are valid |
+
+---
+
+## 2. Range and Representation
+
+### Formula
+The range of **any unsigned data type** is calculated as:
+
+$$0 \text{ to } (2^n - 1)$$
+
+where **n** = number of bits.
+
+### Calculation for `unsigned char`
+- n = 8 bits
+- 2⁸ = **256**
+- Range → **0 to 255**
+
+### Format Specifiers
+
+| Specifier | Purpose |
+|---|---|
+| `%c` | Standard specifier for printing a **character** |
+| `%d` | Used to print the **integer value** stored inside the character variable (used in examples below) |
+
+### Character Constants
+Any content placed inside **single quotes** is treated as a **character constant**.
+
+Examples: `'A'`, `'+'`, `'D'`, `'9'`, `'K'`
+
+---
+
+## 3. Signed vs. Unsigned — Why It Matters
+
+Characters in C are categorized into two distinct types:
+
+- `signed char` — can hold negative values (range: −128 to 127)
+- `unsigned char` — holds only non-negative values (range: 0 to 255)
+
+> **Note:** The specific functional differences between signed and unsigned char become especially important during advanced topics like **strings**. They are distinct types designed for different programming needs.
+
+---
+
+## 4. Handling Out-of-Range Values — The Butterfly Diagram
+
+When a programmer assigns a value **outside the valid range (0 to 255)**, the system calculates an equivalent internal value using **wrap-around logic**, often visualized as a **Butterfly Diagram**.
+
+---
+
+### Scenario A — Negative Values (Moving Backward from 0)
+
+If you provide a **negative** value, the system wraps **backward** from the start of the range (0):
+
+| Input Value | Result | Explanation |
+|---|---|---|
+| `-1` | **255** | One step back from 0 wraps to maximum (255) |
+| `-2` | **254** | Two steps back from 0 |
+| `-3` | **253** | Three steps back from 0 |
+
+#### Internal Logic
+The binary representation of **−1** is **"all ones"** (i.e., `11111111` in 8 bits).  
+In an **unsigned** system, `11111111` in binary equals **255** in decimal.
+
+---
+
+### Scenario B — Values Exceeding 255 (Moving Forward Past Max)
+
+If you provide a value **higher than 255**, the range wraps **forward** back to the beginning:
+
+| Input Value | Result | Explanation |
+|---|---|---|
+| `256` | **0** | One step past the maximum wraps back to 0 |
+| `257` | **1** | Two steps past the maximum |
+| `258` | **2** | Three steps past the maximum |
+
+---
+
+### Key Rule
+> ⚠️ **Always refer to the Butterfly Diagram logic whenever the assigned value is outside the valid range (0–255).**
+
+---
+
+## 5. Code Implementation Example
+
+```c
+void main() {
+    // Variable 'ch' is declared as an unsigned character
+    unsigned char ch;
+
+    // Assigning a value outside the 0–255 range (negative value)
+    ch = -1;
+
+    // Printing as an integer (%d) to observe the wrap-around effect
+    // Output will be: 255
+    printf("%d", ch);
+}
+```
+
+### What Happens Step-by-Step:
+1. `ch` is declared as `unsigned char` (range: 0 to 255)
+2. Value `-1` is assigned — this is **out of range**
+3. The compiler applies wrap-around logic:
+   - Binary of `-1` = `11111111`
+   - Interpreted as unsigned → **255**
+4. `printf("%d", ch)` prints **255**
+
+---
+
+## 6. Quick Summary Table
+
+| Concept | Detail |
+|---|---|
+| Type | `unsigned char` |
+| Size | 8 bits |
+| Range | 0 to 255 |
+| Out-of-range wrap (negative) | Wraps backward from 0 (e.g., -1 → 255) |
+| Out-of-range wrap (overflow) | Wraps forward from 0 (e.g., 256 → 0) |
+| Format specifier (char) | `%c` |
+| Format specifier (int value) | `%d` |
+| Character constant syntax | Single quotes: `'A'`, `'9'`, `'+'` |
+| Default char type | `signed` (if not specified) |
+| Syntax variants | `unsigned char` = `char unsigned` |
+
+---
+
+*Notes compiled from lecture on `unsigned char` in C programming.*
+
+---
+
+**Happy Coding **
